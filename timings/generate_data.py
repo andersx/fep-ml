@@ -15,6 +15,22 @@ CUT_DISTANCE = 4.0
 R_WIDTH = 1.0 # 1.0
 C_WIDTH = 1.0 # 0.5
 
+def parse_energies(filename):
+
+    f= open(filename, "r")
+    lines = f.readlines()
+    f.close()
+
+    e = dict()
+
+    for line in lines:
+
+        tokens = line.split()
+
+        e[tokens[0]] = float(tokens[1])
+
+    return e
+
 def arad_kernels(mols1, mols2):
 
     from fml.kernels import get_atomic_kernels_arad
@@ -46,6 +62,8 @@ if __name__ == "__main__":
     random.seed(666)
     random.shuffle(filenames)
 
+    highlevel = parse_energies("names_hf3c.txt")
+
     np.set_printoptions(linewidth=99999999999999999)
     print "Generating ARAS descriptors from FML interface ..."
 
@@ -62,6 +80,8 @@ if __name__ == "__main__":
         # mol.generate_arad_descriptor(size=218)
         mol.name = filename
         print mol.name
+
+        mol.energy = mol.energy - highlevel[filename]
         mols.append(mol)
 
     ezpickle.save(mols, "mols.cpickle")
