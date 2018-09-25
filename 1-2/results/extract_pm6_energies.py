@@ -43,6 +43,6 @@ if __name__ == '__main__':
         for index in [0, 1]:
             filename = "{1:d}00_{0:s}_pm6_energies.csv".format(system, index)
             with open(filename, 'w') as csvfile:
-                writer = csv.writer(csvfile, delimiter=' ')
+                writer = csv.writer(csvfile)
                 for i, c, r, l, de in iter_energies(system, index):
                     writer.writerow([i, c, r, l, de])
