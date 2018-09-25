@@ -1,2 +1,2 @@
 # fep-ml
-Free-Energy Perturbation with FML
+Free-energy perturbation with machine learning

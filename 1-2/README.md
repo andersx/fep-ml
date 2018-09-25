@@ -5,6 +5,6 @@ The folder contains two subfolders named `000` and `100` correspondning to the l
 The ligand MeBz (2) is extracted at lambda = 0.00 and the ligand Bz (1) is extracted at lambda = 1.00.
 
 The structures contained herein are the complexes (starting with a `c`), the hosts (starting with an `r`) and the ligands (starting with an `l`).
-**NB**: The hosts are *only* included in the lambda = 0.00 results.
+**NB**: The hosts are *only* included in the lambda = 0.00 results meaning that all files named "r????.xyz" can only be found in the 000 folder·
 All geometries (stored in `.xyz` format) with the heat of formation energy obtained at the PM6-DH+ level of theory is included in the title line.
 
