@@ -15,9 +15,12 @@ def read_xyz_energy(filename):
                 energy = float(tokens2[-1])*627.51
                 return energy
 
+    raise EOFError("Could not properly read the file '{}'".format(filename))
+
 
 def iter_files(system, index):
     """ iterator for files in project """
+    #for i in range(2000, 2500):
     for i in range(1, 4001):
 
         p = "../{0:d}00/{1:s}/V{0:d}".format(index, system)
@@ -33,15 +36,26 @@ def iter_energies(system, index):
         c_erg = read_xyz_energy(c)
         r_erg = read_xyz_energy(r)
         l_erg = read_xyz_energy(l)
-        yield i, c_erg, r_erg, l_erg, c_erg - r_erg - l_erg
+        try:
+            de = c_erg - r_erg - l_erg
+        except TypeError:
+            print("FAILED FAILED\n{}\nFAILED".format(i))
+            raise TypeError("LOL")
+        else:
+            yield i, c_erg, r_erg, l_erg, de
 
 
 if __name__ == '__main__':
     data = []
     for system in ['prot', 'wat']:
-        for index in [0]: #[0, 1]
+        for index in [1]: #[0, 1]
             filename = "{1:d}00_{0:s}_hf-3c_energies.csv".format(system, index)
             with open(filename, 'w') as csvfile:
                 writer = csv.writer(csvfile)
-                for i, c, r, l, de in iter_energies(system, index):
-                    writer.writerow([i, c, r, l, de])
+                try:
+                    for i, c, r, l, de in iter_energies(system, index):
+                        writer.writerow([i, c, r, l, de])
+                except TypeError:
+                    print("{0:d}_{1:s} failed with TypeError.".format(index, system))
+                except EOFError:
+                    print("{0:d}_{1:s} failed with EOFError. Index = {2:d}".format(index, system, i))
